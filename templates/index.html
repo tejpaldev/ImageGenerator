@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leonardo.AI Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leonardo.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <i class="fas fa-fire"></i>
+            <span>Leonardo.AI</span>
+        </div>
+        <div class="header-controls">
+            <div>AI Creation</div>
+            <div class="token-balance">
+                <i class="fas fa-coins"></i> 150
+            </div>
+            <button class="upgrade-button">Upgrade</button>
+            <div class="toggle-switch">
+                <span>Legacy Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="legacyModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Model Selection -->
+            <div class="sidebar-section">
+                <h3>Model / Preset</h3>
+                <div class="model-select dropdown-container">
+                    <div class="dropdown-header">
+                        <div class="model-name">Flux Dev</div>
+                        <div class="model-type">Flux</div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item" data-value="Flux Dev">
+                            <div class="model-name">Flux Dev</div>
+                            <div class="model-type">Flux</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Flux Ear">
+                            <div class="model-name">Flux Ear</div>
+                            <div class="model-type">Flux</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Dream Shaper">
+                            <div class="model-name">Dream Shaper</div>
+                            <div class="model-type">Stable Diffusion</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Leonardo Diffusion">
+                            <div class="model-name">Leonardo Diffusion</div>
+                            <div class="model-type">Stable Diffusion</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Realistic Vision">
+                            <div class="model-name">Realistic Vision</div>
+                            <div class="model-type">Stable Diffusion</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Format Enhance -->
+            <div class="sidebar-section">
+                <h3>Format Enhance</h3>
+                <div class="model-select dropdown-container">
+                    <div class="dropdown-header">
+                        <div class="model-name">Auto</div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item" data-value="Auto">
+                            <div class="model-name">Auto</div>
+                        </div>
+                        <div class="dropdown-item" data-value="None">
+                            <div class="model-name">None</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Enhance">
+                            <div class="model-name">Enhance</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Upscale">
+                            <div class="model-name">Upscale</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Style -->
+            <div class="sidebar-section">
+                <h3>Style</h3>
+                <div class="model-select dropdown-container">
+                    <div class="dropdown-header">
+                        <div class="model-name">Dynamic</div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item" data-value="Dynamic">
+                            <div class="model-name">Dynamic</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Cinematic">
+                            <div class="model-name">Cinematic</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Photographic">
+                            <div class="model-name">Photographic</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Anime">
+                            <div class="model-name">Anime</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Digital Art">
+                            <div class="model-name">Digital Art</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Illustration">
+                            <div class="model-name">Illustration</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Dimensions -->
+            <div class="sidebar-section">
+                <h3>Image Dimensions <i class="fas fa-info-circle"></i></h3>
+                <div class="image-dimensions">
+                    <div class="dimension-option">
+                        <div class="ratio">3:4</div>
+                        <div class="pixels">768x1024</div>
+                    </div>
+                    <div class="dimension-option">
+                        <div class="ratio">1:1</div>
+                        <div class="pixels">1024x1024</div>
+                    </div>
+                    <div class="dimension-option active">
+                        <div class="ratio">16:9</div>
+                        <div class="pixels">1024x576</div>
+                    </div>
+                    <div class="dimension-option">
+                        <div class="ratio">Custom</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Number of Images -->
+            <div class="sidebar-section">
+                <h3>Number of Images <i class="fas fa-info-circle"></i></h3>
+                <div class="image-count">
+                    <div class="count-option active">1</div>
+                    <div class="count-option">2</div>
+                    <div class="count-option">3</div>
+                    <div class="count-option">4</div>
+                    <div class="count-option"><i class="fas fa-ellipsis-h"></i></div>
+                </div>
+            </div>
+
+            <!-- Private Mode -->
+            <div class="sidebar-section">
+                <div class="private-mode">
+                    <span>Private Mode <i class="fas fa-info-circle"></i></span>
+                    <label class="switch">
+                        <input type="checkbox" id="privateModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Add to Collection -->
+            <div class="sidebar-section">
+                <h3>Add to Collection <i class="fas fa-info-circle"></i></h3>
+                <div class="model-select dropdown-container">
+                    <div class="dropdown-header">
+                        <div class="model-name">Select Collection</div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item" data-value="My Collection">
+                            <div class="model-name">My Collection</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Favorites">
+                            <div class="model-name">Favorites</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Landscapes">
+                            <div class="model-name">Landscapes</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Portraits">
+                            <div class="model-name">Portraits</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Create New">
+                            <div class="model-name"><i class="fas fa-plus"></i> Create New</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Settings -->
+            <div class="sidebar-section">
+                <h3>Advanced Settings</h3>
+                <div class="advanced-settings-container">
+                    <div class="model-select dropdown-container">
+                        <div class="dropdown-header">
+                            <div class="model-name">Show Advanced Settings</div>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-menu advanced-menu">
+                            <!-- Guidance Scale -->
+                            <div class="advanced-setting">
+                                <label for="guidanceScale">Guidance Scale</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <input type="range" class="form-range" min="1" max="20" step="0.5" value="7.5" id="guidanceScale">
+                                    <span id="guidanceScaleValue">7.5</span>
+                                </div>
+                            </div>
+
+                            <!-- Steps -->
+                            <div class="advanced-setting">
+                                <label for="steps">Steps</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <input type="range" class="form-range" min="20" max="100" value="50" id="steps">
+                                    <span id="stepsValue">50</span>
+                                </div>
+                            </div>
+
+                            <!-- Seed -->
+                            <div class="advanced-setting">
+                                <label for="seed">Seed (-1 for random)</label>
+                                <input type="number" class="form-control" id="seed" value="-1">
+                            </div>
+
+                            <!-- Negative Prompt -->
+                            <div class="advanced-setting">
+                                <label for="negativePrompt">Negative Prompt</label>
+                                <textarea class="form-control" id="negativePrompt" rows="2" placeholder="What to exclude from the image"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reset to Defaults -->
+            <div class="sidebar-section">
+                <button class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-undo"></i> Reset to Defaults
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Prompt Input -->
+            <div class="prompt-container">
+                <div class="prompt-input">
+                    <input type="text" id="promptInput" placeholder="Type a prompt ...">
+                    <i class="fas fa-cog settings-icon"></i>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="prompt-tabs">
+                        <div class="prompt-tab active">
+                            <i class="fas fa-image"></i> Image
+                        </div>
+                        <div class="prompt-tab">
+                            <i class="fas fa-video"></i> Video
+                        </div>
+                        <div class="prompt-tab new">
+                            NEW
+                        </div>
+                        <div class="prompt-tab">
+                            <i class="fas fa-project-diagram"></i> Flow State
+                        </div>
+                    </div>
+                    <button class="generate-button" id="generateBtn">
+                        Generate <span>$.40</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Free Plan Banner -->
+            <div class="free-plan-banner">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-bolt banner-icon"></i>
+                    <div class="banner-text">
+                        You are currently on a free plan.
+                        Upgrade for priority generations, additional token credits, and much more!
+                    </div>
+                </div>
+                <button class="upgrade-button">Upgrade Plan</button>
+            </div>
+
+            <!-- Generation History -->
+            <div class="generation-history">
+                <h4>Generation History</h4>
+                <div class="history-date">Wednesday, 23 April 2023</div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="text-center my-5 d-none">
+                <div class="spinner-border text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Generating images...</p>
+            </div>
+
+            <!-- Generated Images -->
+            <div id="generatedImages">
+                <div class="image-grid" id="imageGrid">
+                    <!-- Images will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Bubble -->
+    <div class="chat-bubble">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

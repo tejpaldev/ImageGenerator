@@ -1,89 +1,9 @@
 import os
-import torch
-import numpy as np
 from PIL import Image, ImageFilter, ImageEnhance, ImageOps
 import io
 from flask import Flask, render_template, request, jsonify, send_file, url_for
 import uuid
-
-class ImageGenerator:
-    def __init__(self):
-        """
-        Initialize the ImageGenerator class.
-        """
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
-
-    def generate(self, prompt, num_images=1, width=768, height=768, steps=50, guidance_scale=7.5, seed=None, model="Flux Dev"):
-        """
-        Generate images based on the provided prompt.
-
-        Args:
-            prompt (str): Text prompt for image generation
-            num_images (int): Number of images to generate
-            width (int): Width of the generated images
-            height (int): Height of the generated images
-            steps (int): Number of denoising steps
-            guidance_scale (float): Guidance scale for the model
-            seed (int, optional): Random seed for reproducibility
-            model (str): Model name to use for generation
-
-        Returns:
-            list: List of generated PIL images
-        """
-        try:
-            # For demonstration, create placeholder images with different colors based on the model
-            return [self._create_placeholder_image(width, height, index=i, model=model) for i in range(num_images)]
-
-        except Exception as e:
-            print(f"Error generating images: {e}")
-            # Return placeholder images for demonstration
-            return [self._create_placeholder_image(width, height) for _ in range(num_images)]
-
-    def _create_placeholder_image(self, width, height, index=0, model="Flux Dev"):
-        """
-        Create a placeholder image for demonstration purposes.
-
-        Args:
-            width (int): Width of the image
-            height (int): Height of the image
-            index (int): Index for color variation
-            model (str): Model name for color theme
-
-        Returns:
-            PIL.Image: A placeholder image
-        """
-        # Create a gradient image as a placeholder
-        array = np.zeros((height, width, 3), dtype=np.uint8)
-
-        # Set color theme based on model
-        if model == "Flux Dev":
-            # Purple theme
-            base_color = (100, 50, 150)
-        elif model == "Dynamic":
-            # Blue theme
-            base_color = (50, 100, 150)
-        else:
-            # Default theme
-            base_color = (100, 100, 100)
-
-        # Add some randomness based on index
-        r_offset = (index * 30) % 100
-        g_offset = (index * 20) % 100
-        b_offset = (index * 40) % 100
-
-        # Create a gradient effect
-        for y in range(height):
-            for x in range(width):
-                r = int(base_color[0] + r_offset + (155 * (x / width)))
-                g = int(base_color[1] + g_offset + (155 * (y / height)))
-                b = int(base_color[2] + b_offset + (155 * ((x + y) / (width + height))))
-                array[y, x] = [min(r, 255), min(g, 255), min(b, 255)]
-
-        # Add some noise for texture
-        noise = np.random.randint(0, 20, (height, width, 3), dtype=np.uint8)
-        array = np.clip(array + noise, 0, 255).astype(np.uint8)
-
-        return Image.fromarray(array)
+from models.image_generator import ImageGenerator
 
 class ImageFilter:
     def __init__(self):
@@ -205,7 +125,7 @@ class LeonardoAI:
         self.generated_images = {}
         self.user_tokens = 150  # Default token balance
 
-    def generate_images(self, prompt, num_images=1, width=1024, height=576, steps=50, guidance_scale=7.5, seed=None, model="Flux Dev"):
+    def generate_images(self, prompt, num_images=1, width=1024, height=768, steps=4, guidance_scale=7.5, seed=None, model="FLUX 1.1"):
         """
         Generate images and manage token usage.
 
@@ -232,7 +152,7 @@ class LeonardoAI:
                 'error': 'Not enough tokens. Please upgrade your plan.'
             }
 
-        # Generate images
+        # Generate images - model parameter is not used by the API but stored for reference
         images = self.image_generator.generate(
             prompt=prompt,
             num_images=num_images,
@@ -240,8 +160,7 @@ class LeonardoAI:
             height=height,
             steps=steps,
             guidance_scale=guidance_scale,
-            seed=seed,
-            model=model
+            seed=seed
         )
 
         # Create a unique session ID for this generation
@@ -355,25 +274,39 @@ def generate_images():
     prompt = request.form.get('prompt', '')
     num_images = int(request.form.get('num_images', 1))
     width = int(request.form.get('width', 1024))
-    height = int(request.form.get('height', 576))
-    steps = int(request.form.get('steps', 50))
+    height = int(request.form.get('height', 768))
+    steps = int(request.form.get('steps', 4))
     guidance_scale = float(request.form.get('guidance_scale', 7.5))
     seed = request.form.get('seed', '-1')
-    model = request.form.get('model', 'Flux Dev')
+
+    # Handle model selection with fallbacks
+    model = request.form.get('model', '')
+    if not model:
+        model = request.form.get('preset', '')  # Try 'preset' if 'model' is empty
+    if not model:
+        model = 'FLUX 1.1'  # Default if neither is provided
+
+    # Handle additional UI parameters (these don't affect API calls but are logged)
     format_enhance = request.form.get('format_enhance', 'Auto')
     style = request.form.get('style', 'Dynamic')
-    private_mode = request.form.get('private_mode', 'false').lower() == 'true'
-    negative_prompt = request.form.get('negative_prompt', '')
+
+    # Map UI model names to API model names if needed
+    model_mapping = {
+        'Flux Dev': 'FLUX 1.1',
+        'Flux': 'FLUX 1.1',
+        # Add more mappings as needed
+    }
+
+    # Use the mapping if available, otherwise keep the original
+    api_model = model_mapping.get(model, model)
 
     # Convert seed to int or None
     seed = int(seed) if seed != '-1' and seed.lstrip('-').isdigit() else None
 
     # Log generation request
-    print(f"Generating images with: Model={model}, Style={style}, Format={format_enhance}, Private={private_mode}")
+    print(f"Generating images with: Model={model}, Format={format_enhance}, Style={style}")
     print(f"Advanced settings: Steps={steps}, Guidance Scale={guidance_scale}, Seed={seed}")
     print(f"Prompt: {prompt}")
-    if negative_prompt:
-        print(f"Negative Prompt: {negative_prompt}")
 
     # Generate images
     result = leonardo_ai.generate_images(
@@ -384,7 +317,7 @@ def generate_images():
         steps=steps,
         guidance_scale=guidance_scale,
         seed=seed,
-        model=model
+        model=api_model  # Use the mapped model name
     )
 
     return jsonify(result)
@@ -460,6 +393,16 @@ def get_token_balance():
 
 if __name__ == '__main__':
     # Use host 0.0.0.0 to make the server accessible from other devices on the network
-    # Use port 7000 to avoid conflicts with other services
-    print("Starting server on http://localhost:7000")
-    app.run(debug=True, host='0.0.0.0', port=7000)
+    # Use port 5000 to avoid conflicts with other services
+    port = 5000
+    print(f"Starting server on http://localhost:{port}")
+    try:
+        app.run(debug=True, host='0.0.0.0', port=port)
+    except OSError as e:
+        # If the port is in use, try another port
+        if "Address already in use" in str(e):
+            port = 5001
+            print(f"Port 5000 is in use. Trying port {port}...")
+            app.run(debug=True, host='0.0.0.0', port=port)
+        else:
+            raise

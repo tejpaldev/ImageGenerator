@@ -12,7 +12,67 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Display sample images on initial load
     displaySampleImages();
+
+    // Initialize dropdown values
+    initializeDropdowns();
 });
+
+/**
+ * Initialize dropdown values
+ */
+function initializeDropdowns() {
+    // Set default values for dropdowns
+    const modelDropdown = document.querySelector('.sidebar-section:nth-child(1) .dropdown-container');
+    if (modelDropdown) {
+        const modelName = "Flux Dev";
+        const modelType = "Flux";
+
+        // Update header text
+        const header = modelDropdown.querySelector('.dropdown-header');
+        if (header) {
+            const nameElement = header.querySelector('.model-name');
+            const typeElement = header.querySelector('.model-type');
+
+            if (nameElement) nameElement.textContent = modelName;
+            if (typeElement) typeElement.textContent = modelType;
+        }
+
+        // Store selected value
+        modelDropdown.setAttribute('data-selected', modelName);
+    }
+
+    // Format Enhance dropdown
+    const formatDropdown = document.querySelector('.sidebar-section:nth-child(2) .dropdown-container');
+    if (formatDropdown) {
+        const formatName = "Auto";
+
+        // Update header text
+        const header = formatDropdown.querySelector('.dropdown-header');
+        if (header) {
+            const nameElement = header.querySelector('.model-name');
+            if (nameElement) nameElement.textContent = formatName;
+        }
+
+        // Store selected value
+        formatDropdown.setAttribute('data-selected', formatName);
+    }
+
+    // Style dropdown
+    const styleDropdown = document.querySelector('.sidebar-section:nth-child(3) .dropdown-container');
+    if (styleDropdown) {
+        const styleName = "Dynamic";
+
+        // Update header text
+        const header = styleDropdown.querySelector('.dropdown-header');
+        if (header) {
+            const nameElement = header.querySelector('.model-name');
+            if (nameElement) nameElement.textContent = styleName;
+        }
+
+        // Store selected value
+        styleDropdown.setAttribute('data-selected', styleName);
+    }
+}
 
 /**
  * Initialize all event listeners
@@ -24,12 +84,46 @@ function initializeEventListeners() {
         generateBtn.addEventListener('click', generateImages);
     }
 
-    // Dropdown menus
+    // First, clean up any existing dropdown menus to avoid duplicates
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        if (menu.querySelector('.dropdown-search')) {
+            menu.remove();
+        }
+    });
+
+    // Dropdown menus with search functionality
     const dropdownContainers = document.querySelectorAll('.dropdown-container');
-    dropdownContainers.forEach(container => {
+
+    // First, remove all existing dropdown menus to start fresh
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.remove();
+    });
+
+    // Now create new dropdown menus for each container
+    dropdownContainers.forEach((container, index) => {
+        // Create a completely new dropdown menu
+        const menu = document.createElement('div');
+        menu.className = 'dropdown-menu';
+        menu.id = `dropdown-menu-${index}`;
+        menu.style.zIndex = 1000 - index; // Ensure proper stacking
+
+        // Set initial display to none
+        menu.style.display = 'none';
+
+        // Add a data attribute to identify which section this belongs to
+        const sectionTitle = container.closest('.sidebar-section')?.querySelector('h3')?.textContent || `Section ${index}`;
+        menu.setAttribute('data-section', sectionTitle);
+
+        // Append to container
+        container.appendChild(menu);
+
+        // Log for debugging
+        console.log(`Created dropdown menu #${index} for section: ${menu.getAttribute('data-section')}`);
+
         const header = container.querySelector('.dropdown-header');
-        const menu = container.querySelector('.dropdown-menu');
-        const items = container.querySelectorAll('.dropdown-item');
+
+        // Store original dropdown items for reference
+        const originalItems = Array.from(container.querySelectorAll('.dropdown-item'));
 
         // Set initial selected value
         const firstItem = container.querySelector('.dropdown-item');
@@ -38,25 +132,189 @@ function initializeEventListeners() {
             container.setAttribute('data-selected', value);
         }
 
+        // Add search input to each dropdown
+        // Clear the menu first
+        menu.innerHTML = '';
+
+        // Create search input
+        const searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.className = 'dropdown-search';
+        searchInput.placeholder = 'Search...';
+        searchInput.autocomplete = 'off';
+
+        // Create a wrapper for items
+        const itemsWrapper = document.createElement('div');
+        itemsWrapper.className = 'dropdown-items';
+
+        // Clone and add items to the wrapper
+        originalItems.forEach(item => {
+            // Create a completely new item instead of cloning
+            const newItem = document.createElement('div');
+            newItem.className = 'dropdown-item';
+            newItem.setAttribute('data-value', item.getAttribute('data-value'));
+
+            // Create model name element
+            const modelNameEl = document.createElement('div');
+            modelNameEl.className = 'model-name';
+            modelNameEl.textContent = item.querySelector('.model-name').textContent;
+
+            // Create model type element if it exists
+            const modelTypeEl = item.querySelector('.model-type');
+            if (modelTypeEl) {
+                const newModelTypeEl = document.createElement('div');
+                newModelTypeEl.className = 'model-type';
+                newModelTypeEl.textContent = modelTypeEl.textContent;
+                newItem.appendChild(newModelTypeEl);
+            }
+
+            // Add model name after model type (for styling purposes)
+            newItem.appendChild(modelNameEl);
+
+            // Add the new item to the wrapper
+            itemsWrapper.appendChild(newItem);
+
+            // Add click event to the new item
+            newItem.addEventListener('click', function(e) {
+                e.stopPropagation();
+
+                const value = this.getAttribute('data-value');
+                const modelName = this.querySelector('.model-name').textContent;
+                const modelType = this.querySelector('.model-type')?.textContent;
+
+                // Update header text
+                const headerNameElement = header.querySelector('.model-name');
+                const headerTypeElement = header.querySelector('.model-type');
+
+                if (headerNameElement) headerNameElement.textContent = modelName;
+                if (modelType && headerTypeElement) headerTypeElement.textContent = modelType;
+
+                // Close dropdown
+                container.classList.remove('active');
+                menu.style.display = 'none';
+
+                // Store selected value
+                container.setAttribute('data-selected', value);
+
+                // Log selection
+                console.log('Selected:', value);
+            });
+        });
+
+        // Add elements to menu
+        menu.appendChild(searchInput);
+        menu.appendChild(itemsWrapper);
+
+        // Add search functionality
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const dropdownItems = itemsWrapper.querySelectorAll('.dropdown-item');
+            let hasResults = false;
+
+            dropdownItems.forEach(item => {
+                const modelName = item.querySelector('.model-name').textContent.toLowerCase();
+                const modelType = item.querySelector('.model-type')?.textContent?.toLowerCase() || '';
+
+                if (modelName.includes(searchTerm) || modelType.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                    // Highlight matching text
+                    if (searchTerm.length > 0) {
+                        const nameElement = item.querySelector('.model-name');
+                        const typeElement = item.querySelector('.model-type');
+
+                        // Reset content first
+                        nameElement.innerHTML = modelName;
+                        if (typeElement) typeElement.innerHTML = modelType || '';
+
+                        // Highlight matching text
+                        if (modelName.includes(searchTerm)) {
+                            const highlightedText = modelName.replace(
+                                new RegExp(searchTerm, 'gi'),
+                                match => `<span style="background-color: rgba(255,51,102,0.3); padding: 0 2px;">${match}</span>`
+                            );
+                            nameElement.innerHTML = highlightedText;
+                        }
+
+                        if (modelType && modelType.includes(searchTerm)) {
+                            const highlightedText = modelType.replace(
+                                new RegExp(searchTerm, 'gi'),
+                                match => `<span style="background-color: rgba(255,51,102,0.3); padding: 0 2px;">${match}</span>`
+                            );
+                            if (typeElement) typeElement.innerHTML = highlightedText;
+                        }
+                    }
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show a "no results" message if needed
+            let noResultsMsg = itemsWrapper.querySelector('.no-results-message');
+            if (!hasResults) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.className = 'no-results-message';
+                    noResultsMsg.style.padding = '10px';
+                    noResultsMsg.style.textAlign = 'center';
+                    noResultsMsg.style.color = 'var(--secondary-text)';
+                    itemsWrapper.appendChild(noResultsMsg);
+                }
+                noResultsMsg.textContent = `No results for "${searchTerm}"`;
+                noResultsMsg.style.display = 'block';
+            } else if (noResultsMsg) {
+                noResultsMsg.style.display = 'none';
+            }
+        });
+
+        // Prevent search input from closing dropdown and focus on click
+        searchInput.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.focus();
+        });
+
         // Toggle dropdown on header click
         header.addEventListener('click', function(e) {
             e.stopPropagation(); // Prevent event from bubbling up
 
-            // Close all other dropdowns
-            dropdownContainers.forEach(c => {
+            console.log('Header clicked for dropdown:', container.id || index);
+
+            // Close all other dropdowns and their menus
+            document.querySelectorAll('.dropdown-container').forEach(c => {
                 if (c !== container) {
                     c.classList.remove('active');
+                    const otherMenu = c.querySelector('.dropdown-menu');
+                    if (otherMenu) {
+                        otherMenu.style.display = 'none';
+                    }
                 }
             });
 
             // Toggle current dropdown
-            container.classList.toggle('active');
+            const isActive = container.classList.toggle('active');
+            console.log('Dropdown active state:', isActive);
 
-            console.log('Dropdown toggled:', container.classList.contains('active'));
+            // Explicitly show/hide the menu
+            if (isActive) {
+                menu.style.display = 'block';
+                console.log('Menu should be visible now:', menu.id);
+
+                // Focus search input when dropdown opens
+                const searchInput = menu.querySelector('.dropdown-search');
+                if (searchInput) {
+                    setTimeout(() => {
+                        searchInput.focus();
+                        console.log('Search input focused');
+                    }, 100);
+                }
+            } else {
+                menu.style.display = 'none';
+                console.log('Menu should be hidden now:', menu.id);
+            }
         });
 
-        // Handle item selection
-        items.forEach(item => {
+        // Handle item selection for original items
+        originalItems.forEach(item => {
             item.addEventListener('click', function(e) {
                 e.stopPropagation(); // Prevent event from bubbling up
 
@@ -84,9 +342,15 @@ function initializeEventListeners() {
 
     // Close dropdowns when clicking outside
     document.addEventListener('click', function(event) {
-        dropdownContainers.forEach(container => {
+        console.log('Document clicked, checking dropdowns');
+        document.querySelectorAll('.dropdown-container').forEach(container => {
             if (!container.contains(event.target)) {
                 container.classList.remove('active');
+                const menu = container.querySelector('.dropdown-menu');
+                if (menu) {
+                    menu.style.display = 'none';
+                    console.log('Closing dropdown menu:', menu.id);
+                }
             }
         });
     });

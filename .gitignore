@@ -36,6 +36,9 @@ env/
 env.bak/
 venv.bak/
 
+# Together API key
+.env
+
 # Flask
 instance/
 .webassets-cache

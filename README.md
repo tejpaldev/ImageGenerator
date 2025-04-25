@@ -1,38 +1,35 @@
 # Leonardo AI Clone
 
-A Python application that replicates the functionalities of the Leonardo AI interface.
+A web-based AI image generation application that uses the Together API with the FLUX.1-schnell model.
 
 ## Features
 
-- **User Interface**:
-  - Dark mode interface with a prompt input box at the top
+- **Modern User Interface**:
+  - Elegant, compact dark mode interface with searchable dropdowns
   - Options for "Creation" and "Legacy Mode"
-  - Various settings such as "Flux Ear," "Number of Images," and advanced settings
-  - Option to upgrade for priority generation
+  - Various settings such as model selection, image dimensions, and advanced parameters
+  - Intuitive image editing and filtering tools
 
 - **Image Generation**:
-  - Generate high-quality images based on user input
-  - Support various styles and themes (e.g., realistic, abstract, cartoon)
+  - Generate high-quality images using Together API with FLUX.1-schnell model
+  - Support for various styles and themes (realistic, abstract, cartoon, etc.)
+  - Customizable parameters like steps, guidance scale, and seed
 
 - **Image Filtering**:
-  - Apply filters to images (e.g., sepia, grayscale, blur)
-  - Allow customization of filter intensity
+  - Apply filters to images (sepia, grayscale, blur, sharpen, vintage, etc.)
+  - Adjustable filter intensity
 
 - **Image Editing**:
-  - Basic editing tools (e.g., crop, rotate, resize)
-  - Advanced editing options (e.g., color correction, background removal)
+  - Basic editing tools (crop, rotate, resize)
+  - Advanced editing options (color correction, background removal)
 
 - **Real-Time Preview**:
   - Display generated image sequences based on the given prompt
-  - Allow users to view and select images in real-time
+  - Interactive image selection and editing
 
-- **Integration**:
-  - Support for importing and exporting images in various formats (e.g., JPEG, PNG, GIF)
-  - Integration with cloud storage services for saving and sharing images
-
-- **Customization**:
-  - Allow users to create and save custom presets for image generation and filtering
-  - Provide options for adjusting AI model parameters
+- **Export Options**:
+  - Support for exporting images in various formats (JPEG, PNG, GIF)
+  - Adjustable quality settings for exports
 
 ## Installation
 
@@ -42,14 +39,27 @@ A Python application that replicates the functionalities of the Leonardo AI inte
    cd leonardo-ai-clone
    ```
 
-2. Install the required dependencies:
+2. Create a virtual environment:
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. Install the required dependencies:
    ```
    pip install -r requirements.txt
    ```
 
+4. Create a `.env` file in the root directory with your Together API key:
+   ```
+   TOGETHER_API_KEY=your_api_key_here
+   ```
+
 ## Usage
 
-1. Run the application:
+### Streamlit App (Recommended)
+
+1. Run the Streamlit application:
    ```
    streamlit run app.py
    ```
@@ -62,14 +72,29 @@ A Python application that replicates the functionalities of the Leonardo AI inte
 
 5. Export your images in your preferred format.
 
+### Flask Web App
+
+1. Run the Flask web application:
+   ```
+   python web_app.py
+   ```
+
+2. Open your web browser and navigate to http://localhost:5000 (or the port shown in the terminal).
+
 ## Requirements
 
 - Python 3.8 or higher
-- See requirements.txt for a complete list of dependencies
+- flask>=2.0.0
+- pillow>=9.0.0
+- numpy>=1.24.0
+- streamlit>=1.22.0
+- together>=0.1.5
+- python-dotenv>=1.0.0
+- opencv-python>=4.7.0 (for background removal)
 
 ## Models
 
-The application uses the FLUX 1.1 model from Hugging Face for image generation. Other models can be integrated as needed.
+The application uses the FLUX.1-schnell model from Black Forest Labs via the Together API for image generation.
 
 ## License
 

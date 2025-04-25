@@ -24,17 +24,13 @@ function initializeDropdowns() {
     // Set default values for dropdowns
     const modelDropdown = document.querySelector('.sidebar-section:nth-child(1) .dropdown-container');
     if (modelDropdown) {
-        const modelName = "Flux Dev";
-        const modelType = "Flux";
+        const modelName = "Flux Schnell";
 
         // Update header text
         const header = modelDropdown.querySelector('.dropdown-header');
         if (header) {
-            const nameElement = header.querySelector('.model-name');
             const typeElement = header.querySelector('.model-type');
-
-            if (nameElement) nameElement.textContent = modelName;
-            if (typeElement) typeElement.textContent = modelType;
+            if (typeElement) typeElement.textContent = modelName;
         }
 
         // Store selected value
@@ -390,22 +386,21 @@ function initializeEventListeners() {
         });
     }
 
-    // Advanced settings sliders
-    const guidanceScaleSlider = document.getElementById('guidanceScale');
-    const guidanceScaleValue = document.getElementById('guidanceScaleValue');
-    if (guidanceScaleSlider && guidanceScaleValue) {
-        guidanceScaleSlider.addEventListener('input', function() {
-            guidanceScaleValue.textContent = this.value;
-        });
-    }
-
-    const stepsSlider = document.getElementById('steps');
-    const stepsValue = document.getElementById('stepsValue');
-    if (stepsSlider && stepsValue) {
-        stepsSlider.addEventListener('input', function() {
-            stepsValue.textContent = this.value;
-        });
-    }
+    // Advanced settings headers
+    const advancedHeaders = document.querySelectorAll('.advanced-settings-header');
+    advancedHeaders.forEach(header => {
+        const content = header.nextElementSibling;
+        if (content && content.classList.contains('advanced-menu')) {
+            header.addEventListener('click', function() {
+                header.classList.toggle('active');
+                if (content.style.display === 'none') {
+                    content.style.display = 'block';
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+        }
+    });
 
     // Prompt tabs
     const promptTabs = document.querySelectorAll('.prompt-tab');
@@ -437,25 +432,25 @@ function displaySampleImages() {
             prompt: 'A dimly lit, cozy living room with warm ambient light—perhaps a floor lamp glowing softly in the corner. The walls are...',
             style: 'Dynamic',
             resolution: '1024x1024px',
-            model: 'Flux Dev'
+            model: 'Flux Schnell'
         },
         {
             prompt: 'A dimly lit, cozy living room with warm ambient light—perhaps a floor lamp glowing softly in the corner. The walls are...',
             style: 'Dynamic',
             resolution: '1024x1024px',
-            model: 'Flux Dev'
+            model: 'Flux Schnell'
         },
         {
             prompt: 'A dimly lit, cozy living room with warm ambient light—perhaps a floor lamp glowing softly in the corner. The walls are...',
             style: 'Dynamic',
             resolution: '1024x1024px',
-            model: 'Flux Dev'
+            model: 'Flux Schnell'
         },
         {
             prompt: 'A dimly lit, cozy living room with warm ambient light—perhaps a floor lamp glowing softly in the corner. The walls are...',
             style: 'Dynamic',
             resolution: '1024x1024px',
-            model: 'Flux Dev'
+            model: 'Flux Schnell'
         }
     ];
 

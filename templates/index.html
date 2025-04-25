@@ -11,23 +11,16 @@
 <body>
     <!-- Header -->
     <header class="header">
+        <i class="fas fa-arrow-left back-button"></i>
         <div class="logo">
             <i class="fas fa-fire"></i>
-            <span>Leonardo.AI</span>
+            <span>Leonardo.<span class="ai">AI</span></span>
         </div>
         <div class="header-controls">
-            <div>AI Creation</div>
             <div class="token-balance">
                 <i class="fas fa-coins"></i> 150
             </div>
             <button class="upgrade-button">Upgrade</button>
-            <div class="toggle-switch">
-                <span>Legacy Mode</span>
-                <label class="switch">
-                    <input type="checkbox" id="legacyModeToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
         </div>
     </header>
 
@@ -37,33 +30,38 @@
         <div class="sidebar">
             <!-- Model Selection -->
             <div class="sidebar-section">
-                <h3>Model / Preset</h3>
-                <div class="model-select dropdown-container">
-                    <div class="dropdown-header">
-                        <div class="model-name">Flux Dev</div>
-                        <div class="model-type">Flux</div>
+                <h3>Model / Preset <i class="fas fa-info-circle info-icon"></i></h3>
+                <div class="dropdown-container">
+                    <div class="dropdown-header model-preset">
+                        <div>
+                            <div class="model-type">Flux Schnell</div>
+                        </div>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="dropdown-menu">
-                        <div class="dropdown-item" data-value="Flux Dev">
+                        <div class="dropdown-item new" data-value="Phoenix 1.0">
+                            <div class="model-name">Phoenix 1.0</div>
+                        </div>
+                        <div class="dropdown-item new" data-value="Phoenix 0.9">
+                            <div class="model-name">Phoenix 0.9</div>
+                        </div>
+                        <div class="dropdown-item new" data-value="Flux Dev">
                             <div class="model-name">Flux Dev</div>
-                            <div class="model-type">Flux</div>
                         </div>
-                        <div class="dropdown-item" data-value="Flux Ear">
-                            <div class="model-name">Flux Ear</div>
-                            <div class="model-type">Flux</div>
+                        <div class="dropdown-item active new" data-value="Flux Schnell">
+                            <div class="model-name">Flux Schnell</div>
                         </div>
-                        <div class="dropdown-item" data-value="Dream Shaper">
-                            <div class="model-name">Dream Shaper</div>
-                            <div class="model-type">Stable Diffusion</div>
+                        <div class="dropdown-item" data-value="Anime">
+                            <div class="model-name">Anime</div>
                         </div>
-                        <div class="dropdown-item" data-value="Leonardo Diffusion">
-                            <div class="model-name">Leonardo Diffusion</div>
-                            <div class="model-type">Stable Diffusion</div>
+                        <div class="dropdown-item" data-value="Cinematic Kino">
+                            <div class="model-name">Cinematic Kino</div>
                         </div>
-                        <div class="dropdown-item" data-value="Realistic Vision">
-                            <div class="model-name">Realistic Vision</div>
-                            <div class="model-type">Stable Diffusion</div>
+                        <div class="dropdown-item" data-value="Concept Art">
+                            <div class="model-name">Concept Art</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Graphic Design">
+                            <div class="model-name">Graphic Design</div>
                         </div>
                     </div>
                 </div>
@@ -71,14 +69,16 @@
 
             <!-- Format Enhance -->
             <div class="sidebar-section">
-                <h3>Format Enhance</h3>
-                <div class="model-select dropdown-container">
+                <h3>Prompt Enhance <i class="fas fa-info-circle info-icon"></i></h3>
+                <div class="dropdown-container">
                     <div class="dropdown-header">
-                        <div class="model-name">Auto</div>
+                        <div>
+                            <div class="model-name">Auto</div>
+                        </div>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="dropdown-menu">
-                        <div class="dropdown-item" data-value="Auto">
+                        <div class="dropdown-item active" data-value="Auto">
                             <div class="model-name">Auto</div>
                         </div>
                         <div class="dropdown-item" data-value="None">
@@ -96,27 +96,38 @@
 
             <!-- Style -->
             <div class="sidebar-section">
-                <h3>Style</h3>
-                <div class="model-select dropdown-container">
+                <h3>Style <i class="fas fa-info-circle info-icon"></i></h3>
+                <div class="dropdown-container">
                     <div class="dropdown-header">
-                        <div class="model-name">Dynamic</div>
+                        <div>
+                            <div class="model-name">Dynamic</div>
+                        </div>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="dropdown-menu">
-                        <div class="dropdown-item" data-value="Dynamic">
+                        <div class="dropdown-item active" data-value="Dynamic">
                             <div class="model-name">Dynamic</div>
                         </div>
-                        <div class="dropdown-item" data-value="Cinematic">
-                            <div class="model-name">Cinematic</div>
+                        <div class="dropdown-item" data-value="3D Render">
+                            <div class="model-name">3D Render</div>
                         </div>
-                        <div class="dropdown-item" data-value="Photographic">
-                            <div class="model-name">Photographic</div>
+                        <div class="dropdown-item" data-value="Acrylic">
+                            <div class="model-name">Acrylic</div>
                         </div>
-                        <div class="dropdown-item" data-value="Anime">
-                            <div class="model-name">Anime</div>
+                        <div class="dropdown-item" data-value="Anime General">
+                            <div class="model-name">Anime General</div>
                         </div>
-                        <div class="dropdown-item" data-value="Digital Art">
-                            <div class="model-name">Digital Art</div>
+                        <div class="dropdown-item" data-value="Creative">
+                            <div class="model-name">Creative</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Fashion">
+                            <div class="model-name">Fashion</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Game Concept">
+                            <div class="model-name">Game Concept</div>
+                        </div>
+                        <div class="dropdown-item" data-value="Graphic Design 3D">
+                            <div class="model-name">Graphic Design 3D</div>
                         </div>
                         <div class="dropdown-item" data-value="Illustration">
                             <div class="model-name">Illustration</div>
@@ -127,117 +138,129 @@
 
             <!-- Image Dimensions -->
             <div class="sidebar-section">
-                <h3>Image Dimensions <i class="fas fa-info-circle"></i></h3>
+                <h3>Image Dimensions <i class="fas fa-info-circle info-icon"></i></h3>
                 <div class="image-dimensions">
                     <div class="dimension-option">
-                        <div class="ratio">3:4</div>
-                        <div class="pixels">768x1024</div>
-                    </div>
-                    <div class="dimension-option">
-                        <div class="ratio">1:1</div>
-                        <div class="pixels">1024x1024</div>
+                        <div class="ratio">2:3</div>
                     </div>
                     <div class="dimension-option active">
+                        <div class="ratio">1:1</div>
+                    </div>
+                    <div class="dimension-option">
                         <div class="ratio">16:9</div>
-                        <div class="pixels">1024x576</div>
                     </div>
                     <div class="dimension-option">
                         <div class="ratio">Custom</div>
+                    </div>
+                </div>
+                <div class="dimension-size">
+                    <div class="dimension-size-option">
+                        Small<br>
+                        <span style="font-size: 0.65rem; color: var(--secondary-text);">512×512</span>
+                    </div>
+                    <div class="dimension-size-option active">
+                        Medium<br>
+                        <span style="font-size: 0.65rem; color: var(--secondary-text);">1024×1024</span>
+                    </div>
+                    <div class="dimension-size-option">
+                        Large<br>
+                        <span style="font-size: 0.65rem; color: var(--secondary-text);">1536×1536</span>
                     </div>
                 </div>
             </div>
 
             <!-- Number of Images -->
             <div class="sidebar-section">
-                <h3>Number of Images <i class="fas fa-info-circle"></i></h3>
+                <h3>Number of Images <i class="fas fa-info-circle info-icon"></i></h3>
                 <div class="image-count">
-                    <div class="count-option active">1</div>
+                    <div class="count-option">1</div>
                     <div class="count-option">2</div>
                     <div class="count-option">3</div>
-                    <div class="count-option">4</div>
-                    <div class="count-option"><i class="fas fa-ellipsis-h"></i></div>
+                    <div class="count-option active">4</div>
+                    <div class="count-option more"><i class="fas fa-chevron-down"></i></div>
                 </div>
             </div>
 
             <!-- Private Mode -->
             <div class="sidebar-section">
                 <div class="private-mode">
-                    <span>Private Mode <i class="fas fa-info-circle"></i></span>
-                    <label class="switch">
-                        <input type="checkbox" id="privateModeToggle">
-                        <span class="slider"></span>
-                    </label>
+                    <div>Private Mode <i class="fas fa-info-circle info-icon"></i></div>
+                    <div class="toggle-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="privateModeToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
             <!-- Add to Collection -->
             <div class="sidebar-section">
-                <h3>Add to Collection <i class="fas fa-info-circle"></i></h3>
-                <div class="model-select dropdown-container">
-                    <div class="dropdown-header">
-                        <div class="model-name">Select Collection</div>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-item" data-value="My Collection">
-                            <div class="model-name">My Collection</div>
-                        </div>
-                        <div class="dropdown-item" data-value="Favorites">
-                            <div class="model-name">Favorites</div>
-                        </div>
-                        <div class="dropdown-item" data-value="Landscapes">
-                            <div class="model-name">Landscapes</div>
-                        </div>
-                        <div class="dropdown-item" data-value="Portraits">
-                            <div class="model-name">Portraits</div>
-                        </div>
-                        <div class="dropdown-item" data-value="Create New">
-                            <div class="model-name"><i class="fas fa-plus"></i> Create New</div>
-                        </div>
-                    </div>
+                <div class="advanced-settings-header">
+                    <div>Add to Collection <i class="fas fa-info-circle info-icon"></i></div>
+                    <i class="fas fa-chevron-down"></i>
                 </div>
             </div>
 
             <!-- Advanced Settings -->
             <div class="sidebar-section">
-                <h3>Advanced Settings</h3>
-                <div class="advanced-settings-container">
-                    <div class="model-select dropdown-container">
+                <div class="advanced-settings-header">
+                    <div>Advanced Settings</div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="advanced-menu" style="display: none;">
+                    <div class="model-dropdown">
                         <div class="dropdown-header">
-                            <div class="model-name">Show Advanced Settings</div>
+                            <div class="model-name">
+                                <i class="fas fa-magic" style="color: #a239ff;"></i> Flux Schnell
+                            </div>
                             <i class="fas fa-chevron-down"></i>
                         </div>
-                        <div class="dropdown-menu advanced-menu">
-                            <!-- Guidance Scale -->
-                            <div class="advanced-setting">
-                                <label for="guidanceScale">Guidance Scale</label>
-                                <div class="d-flex align-items-center gap-2">
-                                    <input type="range" class="form-range" min="1" max="20" step="0.5" value="7.5" id="guidanceScale">
-                                    <span id="guidanceScaleValue">7.5</span>
-                                </div>
-                            </div>
-
-                            <!-- Steps -->
-                            <div class="advanced-setting">
-                                <label for="steps">Steps</label>
-                                <div class="d-flex align-items-center gap-2">
-                                    <input type="range" class="form-range" min="20" max="100" value="50" id="steps">
-                                    <span id="stepsValue">50</span>
-                                </div>
-                            </div>
-
-                            <!-- Seed -->
-                            <div class="advanced-setting">
-                                <label for="seed">Seed (-1 for random)</label>
-                                <input type="number" class="form-control" id="seed" value="-1">
-                            </div>
-
-                            <!-- Negative Prompt -->
-                            <div class="advanced-setting">
-                                <label for="negativePrompt">Negative Prompt</label>
-                                <textarea class="form-control" id="negativePrompt" rows="2" placeholder="What to exclude from the image"></textarea>
-                            </div>
+                    </div>
+                    <div class="advanced-setting">
+                        <div class="advanced-setting-label">
+                            PhotoReal <i class="fas fa-info-circle info-icon"></i>
                         </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="advanced-setting">
+                        <div class="advanced-setting-label">
+                            Negative Prompt <i class="fas fa-info-circle info-icon"></i>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="advanced-setting">
+                        <div class="advanced-setting-label">
+                            Transparency <i class="fas fa-info-circle info-icon"></i>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="advanced-setting">
+                        <div class="advanced-setting-label">
+                            Tiling <i class="fas fa-info-circle info-icon"></i>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="advanced-setting">
+                        <div class="advanced-setting-label">
+                            Use Fixed Seed
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
